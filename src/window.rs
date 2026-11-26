@@ -4237,6 +4237,8 @@ impl AppWindow {
                 "layout": self.layout_name,
                 "agent": self.shown_agent(),
                 "floats": self.float_status(),
+                "probe_edge": self.bounds.borrow().get("probe-left").map(|b| f32::from(b.right())),
+                "probe_terms": self.terms.iter().map(|(key, term)| (key, json!({"address": term.address, "selection": term.view.read(cx).selection()}))).collect::<std::collections::BTreeMap<_,_>>(),
                 "overlays": self.overlays.iter().map(|o| match &o.layout {
                     Some(_) => Some("layout".to_owned()),
                     None => self.copies.get(&o.slot).map(|c| c.inst.name.clone()),
